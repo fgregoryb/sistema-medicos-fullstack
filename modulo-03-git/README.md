@@ -1,0 +1,1 @@
+Estudando Full Stack com Gemini
