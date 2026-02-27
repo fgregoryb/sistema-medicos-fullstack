@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Diretivas Vue 3</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+        .box { border: 2px solid #333; padding: 20px; display: inline-block; border-radius: 10px; width: 300px;}
+        .perigo { color: red; font-weight: bold; }
+        input { padding: 8px; margin-bottom: 10px; width: 80%; }
+        button { margin: 5px; padding: 8px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="box">
+            <label>Título do Contador:</label>
+            <input type="text" v-model="titulo">
+
+            <h1>{{ titulo }}</h1>
+            
+            <h2 :style="{ color: contador < 0 ? 'red' : 'black' }">
+                {{ contador }}
+            </h2>
+
+            <p v-if="contador < 0" class="perigo">⚠️ Cuidado! Negativo!</p>
+            
+            <p v-else>Tudo normal.</p>
+
+            <hr>
+
+            <button @click="diminuir">-</button>
+            <button @click="resetar">Reset</button>
+            <button @click="aumentar">+</button>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                // Estado (Dados)
+                const titulo = ref('Meu Contador Vue');
+                const contador = ref(0);
+
+                // Ações (Funções)
+                function aumentar() {
+                    contador.value++;
+                }
+
+                function diminuir() {
+                    contador.value--;
+                }
+
+                function resetar() {
+                    contador.value = 0;
+                    titulo.value = "Contador Resetado!"; // Veja o input mudando sozinho!
+                }
+
+                // Não esqueça de retornar TUDO que o HTML vai usar
+                return {
+                    titulo,
+                    contador,
+                    aumentar,
+                    diminuir,
+                    resetar
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

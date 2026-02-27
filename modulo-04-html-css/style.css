@@ -1,0 +1,35 @@
+/* Isso é um comentário em CSS */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4; /* Cinza bem claro */
+  color: #333; /* Cinza escuro para texto (melhor que preto puro) */
+}
+
+header {
+  background-color: #2c3e50; /* Azul escuro */
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none; /* Remove as bolinhas da lista */
+  padding: 0;
+}
+
+/* Estilizando os cards de projeto */
+article {
+    background-color: white;     /* Fundo branco */
+    width: 300px;                /* Largura fixa */
+    border: 2px solid #333;      /* Borda sólida cinza escura */
+    padding: 20px;               /* Espaço interno (respira!) */
+    margin: 20px;                /* Espaço externo (separa os cards) */
+    
+    /* Arredondando os cantos (Bônus estético) */
+    border-radius: 8px;
+}

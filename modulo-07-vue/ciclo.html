@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Ciclo de Vida Vue 3</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-200 min-h-screen flex items-center justify-center">
+
+    <div id="app" class="bg-white p-8 rounded-xl shadow-2xl max-w-lg text-center border-t-8 border-gray-800">
+        <h1 class="text-3xl font-serif font-bold mb-6 text-gray-800">Reflexão Diária</h1>
+        
+        <div v-if="carregando" class="text-gray-500 animate-pulse text-lg">
+            Consultando os pensadores clássicos... ⏳
+        </div>
+        
+        <div v-else class="space-y-4">
+            <blockquote class="text-xl italic text-gray-700 border-l-4 border-gray-800 pl-4 text-left">
+                "{{ conselho }}"
+            </blockquote>
+            <p class="text-right text-sm font-bold text-gray-500">- Epicteto</p>
+        </div>
+    </div>
+
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+        createApp({
+            setup() {
+                // 1. Variáveis de Estado
+                const conselho = ref('');
+                const carregando = ref(true); // Começa como true para mostrar o loading
+
+                // 2. O Hook de Ciclo de Vida
+                // Tudo aqui dentro roda SOZINHO assim que o HTML aparece na tela
+                onMounted(() => {
+                    console.log("O componente nasceu! Buscando dados...");
+
+                    // Simulando uma ida ao servidor (demora 3 segundos)
+                    setTimeout(() => {
+                        conselho.value = "Não exija que as coisas aconteçam como você deseja, mas deseje que elas aconteçam como devem acontecer, e sua vida fluirá bem.";
+                        carregando.value = false; // Desliga o loading, mostrando a frase
+                    }, 3000);
+                });
+
+                return {
+                    conselho,
+                    carregando
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

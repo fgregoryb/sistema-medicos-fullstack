@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>To-Do List Profissional Vue 3</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+
+    <div id="app" class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4 text-center text-purple-600">Minhas Metas 🎯</h1>
+
+        <div class="flex gap-2 mb-6">
+            <input 
+                v-model="novaTarefa" 
+                @keyup.enter="adicionarTarefa"
+                type="text" 
+                placeholder="Qual o próximo passo?" 
+                class="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:border-purple-500"
+            >
+            <button 
+                @click="adicionarTarefa" 
+                class="bg-purple-500 text-white px-4 py-2 rounded hover:bg-purple-600 transition"
+            >
+                Add
+            </button>
+        </div>
+
+        <ul class="space-y-3">
+            <li 
+                v-for="(tarefa, index) in tarefas" 
+                class="bg-gray-50 p-3 rounded shadow-sm border border-gray-200 flex justify-between items-center transition-all"
+                
+                :class="{ 'opacity-50 bg-gray-200': tarefa.feita }"
+            >
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" v-model="tarefa.feita" class="w-5 h-5 cursor-pointer">
+                    
+                    <span :class="{ 'line-through text-gray-500': tarefa.feita }">
+                        {{ tarefa.texto }}
+                    </span>
+                </div>
+                
+                <button @click="removerTarefa(index)" class="text-red-500 hover:text-red-700 text-xl">
+                    🗑️
+                </button>
+            </li>
+        </ul>
+
+    </div>
+
+    <script>
+        const { createApp, ref } = Vue;
+
+        createApp({
+            setup() {
+                const novaTarefa = ref('');
+                
+                // 1. Mudança Radical: Agora é um array de OBJETOS
+                const tarefas = ref([
+                    { texto: 'Aprender HTML e CSS', feita: true }, // Essa já começa riscada
+                    { texto: 'Dominar Vue.js', feita: false }
+                ]);
+
+                function adicionarTarefa() {
+                    if (novaTarefa.value.trim() === '') return;
+
+                    // 2. Quando adicionamos, empurramos um OBJETO para a lista
+                    tarefas.value.push({ 
+                        texto: novaTarefa.value, 
+                        feita: false // Toda tarefa nova nasce pendente
+                    });
+
+                    novaTarefa.value = '';
+                }
+
+                function removerTarefa(index) {
+                    tarefas.value.splice(index, 1);
+                }
+
+                return {
+                    novaTarefa,
+                    tarefas,
+                    adicionarTarefa,
+                    removerTarefa
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
